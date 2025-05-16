@@ -35,6 +35,8 @@ public class UserService {
         user.setName(userDetails.getName());
         user.setPhoneNumber(userDetails.getPhoneNumber());
         user.setAadharNumber(userDetails.getAadharNumber());
+        user.setRegion(userDetails.getRegion());
+        user.setAmount(userDetails.getAmount());
         
         return userRepository.save(user);
     }

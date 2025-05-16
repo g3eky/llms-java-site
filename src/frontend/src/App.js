@@ -5,7 +5,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', phoneNumber: '', aadharNumber: '' });
+  const [form, setForm] = useState({ name: '', phoneNumber: '', aadharNumber: '', region: 'REGION1', amount: 0 });
   const [adding, setAdding] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -60,7 +60,7 @@ function App() {
         return res.json();
       })
       .then(() => {
-        setForm({ name: '', phoneNumber: '', aadharNumber: '' });
+        setForm({ name: '', phoneNumber: '', aadharNumber: '', region: 'REGION1', amount: 0 });
         fetchUsers(page);
         showToast('User added successfully!');
       })
@@ -115,6 +115,8 @@ function App() {
                   <th>Name</th>
                   <th>Phone Number</th>
                   <th>Aadhar Number</th>
+                  <th>Region</th>
+                  <th>Amount</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -124,6 +126,8 @@ function App() {
                     <td>{user.name}</td>
                     <td>{user.phoneNumber}</td>
                     <td>{user.aadharNumber}</td>
+                    <td>{user.region}</td>
+                    <td>{user.amount}</td>
                     <td>
                       <button onClick={() => handleDeleteUser(user.id)} className="delete-btn">
                         Delete
@@ -176,6 +180,33 @@ function App() {
                   onChange={handleInputChange}
                   minLength={16}
                   maxLength={16}
+                  required
+                />
+              </div>
+              <div style={{ flex: 1, minWidth: 180 }}>
+                <label htmlFor="region">Region</label>
+                <select
+                  id="region"
+                  name="region"
+                  value={form.region}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="REGION1">REGION1</option>
+                  <option value="REGION2">REGION2</option>
+                  <option value="REGION3">REGION3</option>
+                </select>
+              </div>
+              <div style={{ flex: 1, minWidth: 120 }}>
+                <label htmlFor="amount">Amount (0-1000)</label>
+                <input
+                  id="amount"
+                  name="amount"
+                  type="number"
+                  min={0}
+                  max={1000}
+                  value={form.amount}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
