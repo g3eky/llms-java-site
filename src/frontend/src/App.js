@@ -9,6 +9,12 @@ function App() {
   const [adding, setAdding] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [toast, setToast] = useState({ show: false, message: '', error: false });
+
+  const showToast = (message, isError = false) => {
+    setToast({ show: true, message, error: isError });
+    setTimeout(() => setToast({ show: false, message: '', error: false }), 2500);
+  };
 
   const fetchUsers = (pageNum = 0) => {
     setLoading(true);
@@ -56,8 +62,12 @@ function App() {
       .then(() => {
         setForm({ name: '', phoneNumber: '', aadharNumber: '' });
         fetchUsers(page);
+        showToast('User added successfully!');
       })
-      .catch((err) => setError('Error: ' + err))
+      .catch((err) => {
+        setError('Error: ' + err);
+        showToast('Failed to add user', true);
+      })
       .finally(() => setAdding(false));
   };
 
@@ -72,8 +82,12 @@ function App() {
         } else {
           fetchUsers(page);
         }
+        showToast('User deleted!');
       })
-      .catch((err) => setError('Error: ' + err));
+      .catch((err) => {
+        setError('Error: ' + err);
+        showToast('Failed to delete user', true);
+      });
   };
 
   const handlePrev = () => {
@@ -88,11 +102,14 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>User Management</h1>
+        {toast.show && (
+          <div className={`toast${toast.error ? ' error' : ''}`}>{toast.message}</div>
+        )}
         {loading ? (
-          <div>Loading users...</div>
+          <div className="spinner" />
         ) : (
           <>
-            <table style={{ margin: '1rem auto', borderCollapse: 'collapse', width: '90%' }}>
+            <table>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -108,7 +125,7 @@ function App() {
                     <td>{user.phoneNumber}</td>
                     <td>{user.aadharNumber}</td>
                     <td>
-                      <button onClick={() => handleDeleteUser(user.id)} style={{ color: 'red' }}>
+                      <button onClick={() => handleDeleteUser(user.id)} className="delete-btn">
                         Delete
                       </button>
                     </td>
@@ -116,44 +133,53 @@ function App() {
                 ))}
               </tbody>
             </table>
-            <div style={{ margin: '1rem' }}>
-              <button onClick={handlePrev} disabled={page === 0} style={{ marginRight: '1rem' }}>
+            <div className="pagination">
+              <button onClick={handlePrev} disabled={page === 0}>
                 Prev
               </button>
               <span>Page {page + 1} of {totalPages}</span>
-              <button onClick={handleNext} disabled={page >= totalPages - 1} style={{ marginLeft: '1rem' }}>
+              <button onClick={handleNext} disabled={page >= totalPages - 1}>
                 Next
               </button>
             </div>
-            <form onSubmit={handleAddUser} style={{ marginTop: '2rem' }}>
+            <form onSubmit={handleAddUser}>
               <h2>Add New User</h2>
-              <input
-                name="name"
-                placeholder="Name"
-                value={form.name}
-                onChange={handleInputChange}
-                required
-                style={{ marginRight: '1rem' }}
-              />
-              <input
-                name="phoneNumber"
-                placeholder="Phone Number"
-                value={form.phoneNumber}
-                onChange={handleInputChange}
-                required
-                style={{ marginRight: '1rem' }}
-              />
-              <input
-                name="aadharNumber"
-                placeholder="Aadhar Number (16 chars)"
-                value={form.aadharNumber}
-                onChange={handleInputChange}
-                minLength={16}
-                maxLength={16}
-                required
-                style={{ marginRight: '1rem' }}
-              />
-              <button type="submit" disabled={adding}>
+              <div style={{ flex: 1, minWidth: 180 }}>
+                <label htmlFor="name">Name</label>
+                <input
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  value={form.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div style={{ flex: 1, minWidth: 180 }}>
+                <label htmlFor="phoneNumber">Phone Number</label>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  placeholder="Phone Number"
+                  value={form.phoneNumber}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div style={{ flex: 1, minWidth: 220 }}>
+                <label htmlFor="aadharNumber">Aadhar Number (16 chars)</label>
+                <input
+                  id="aadharNumber"
+                  name="aadharNumber"
+                  placeholder="Aadhar Number (16 chars)"
+                  value={form.aadharNumber}
+                  onChange={handleInputChange}
+                  minLength={16}
+                  maxLength={16}
+                  required
+                />
+              </div>
+              <button type="submit" disabled={adding} style={{ minWidth: 120 }}>
                 {adding ? 'Adding...' : 'Add User'}
               </button>
             </form>

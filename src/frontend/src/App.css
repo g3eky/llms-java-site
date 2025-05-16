@@ -1,3 +1,9 @@
+body {
+  background: #e6f4fb;
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -14,14 +20,171 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background: #fff;
+  margin: 2rem auto;
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,130,201,0.08);
+  max-width: 950px;
+  border-top: 6px solid #0082c9;
+}
+
+h1 {
+  color: #0082c9;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #e6f4fb;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,130,201,0.04);
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+th {
+  background: #005b8a;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid #0082c9;
+}
+
+tr {
+  transition: background 0.2s;
+}
+
+tr:nth-child(even) {
+  background: #f7fbfd;
+}
+
+tr:hover {
+  background: #cce6f7;
+}
+
+button {
+  background: #0082c9;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(0,130,201,0.08);
+}
+
+button:disabled {
+  background: #b3d8ee;
+  cursor: not-allowed;
+}
+
+button[style*='color: red'] {
+  background: #e74c3c;
+  color: #fff;
+}
+
+form {
+  background: #f7fbfd;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,130,201,0.04);
+  margin-top: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  border-left: 4px solid #0082c9;
+}
+
+form h2 {
+  flex-basis: 100%;
+  margin: 0 0 1rem 0;
+  color: #005b8a;
+}
+
+form label {
+  font-weight: 500;
+  color: #005b8a;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+form input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #b3d8ee;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+  background: #fff;
+}
+
+form input:focus {
+  border-color: #0082c9;
+}
+
+.pagination {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin: 1.5rem 0 0.5rem 0;
+  gap: 1rem;
+}
+
+.pagination span {
+  font-weight: 500;
+  color: #005b8a;
+  background: #e6f4fb;
+  padding: 0.3rem 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #b3d8ee;
+}
+
+.spinner {
+  margin: 2rem auto;
+  border: 6px solid #b3d8ee;
+  border-top: 6px solid #0082c9;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.toast {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: #2ecc71;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,130,201,0.12);
+  z-index: 1000;
+  font-weight: 500;
+  animation: fadeIn 0.3s;
+}
+
+.toast.error {
+  background: #e74c3c;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .App-link {
@@ -35,4 +198,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: #fff !important;
+}
+.delete-btn:hover {
+  background: #c0392b;
 }
